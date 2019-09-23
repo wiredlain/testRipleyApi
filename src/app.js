@@ -52,7 +52,7 @@ client.on('error', err => {
 
 
 // view engine setup
-app.set('views', './views');
+app.set('views', join(__dirname, '../src/views'));
 app.set('view engine', 'pug');
 
 app.use(cors());
