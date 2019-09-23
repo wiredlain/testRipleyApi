@@ -39,6 +39,8 @@ var _winston = require('winston');
 
 var _winston2 = _interopRequireDefault(_winston);
 
+var _firebase = require('./authentication/firebase');
+
 var _path = require('path');
 
 var _cookieParser = require('cookie-parser');
@@ -49,15 +51,11 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
-var _index = require('./src/routes/index');
+var _index = require('./routes/index');
 
 var _index2 = _interopRequireDefault(_index);
 
-var _users = require('./src/routes/users');
-
-var _users2 = _interopRequireDefault(_users);
-
-var _products = require('./src/routes/products');
+var _products = require('./routes/products');
 
 var _products2 = _interopRequireDefault(_products);
 
@@ -65,21 +63,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, _dotenv.config)();
 
-var router = (0, _express.Router)();
+const router = (0, _express.Router)();
+
 
 _bluebird2.default.promisifyAll(_redis2.default.RedisClient.prototype);
 _bluebird2.default.promisifyAll(_redis2.default.Multi.prototype);
 
-var app = (0, _express2.default)();
+const app = (0, _express2.default)();
 
-var LoggerMiddleware = function LoggerMiddleware(req, res, next) {
+const LoggerMiddleware = (req, res, next) => {
 
-  var random = Math.floor(Math.random() * 100) + 1;
-  var originalUrl = req.originalUrl;
-
+  const random = Math.floor(Math.random() * 100) + 1;
+  const { originalUrl } = req;
   if (random < 15 && originalUrl.indexOf('login') === -1) {
-    var errorMessage = 'Error Code: 500\nMessage: error simulado';
-    _logger2.default.error('500 - ' + errorMessage + ' - ' + req.originalUrl + ' - ' + req.method + ' - ' + req.ip);
+    let errorMessage = `Error Code: 500\nMessage: error simulado`;
+    _logger2.default.error(`500 - ${errorMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
     return res.status(500).send(errorMessage);
   }
 
@@ -88,14 +86,14 @@ var LoggerMiddleware = function LoggerMiddleware(req, res, next) {
 
 app.use(LoggerMiddleware);
 
-var REDIS_URL = process.env.REDIS_URL;
-var client = exports.client = _redis2.default.createClient(REDIS_URL);
+const REDIS_URL = process.env.REDIS_URL;
+const client = exports.client = _redis2.default.createClient(REDIS_URL);
 
-client.on('connect', function () {
-  console.log('connected to redis');
+client.on('connect', () => {
+  console.log(`connected to redis`);
 });
-client.on('error', function (err) {
-  console.log('Error: ' + err);
+client.on('error', err => {
+  console.log(`Error: ${err}`);
 });
 
 // view engine setup
@@ -117,7 +115,6 @@ app.use((0, _cookieParser2.default)());
 app.use(_express2.default.static((0, _path.join)(__dirname, 'public')));
 
 router.use('/', _index2.default);
-router.use('/users', _users2.default);
 router.use('/products', _products2.default);
 
 app.use('/api', router);
@@ -129,7 +126,7 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // Escribimos el error
-  _logger2.default.error((err.status || 500) + ' - ' + err.message + ' - ' + req.originalUrl + ' - ' + req.method + ' - ' + req.ip);
+  _logger2.default.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
 
   // render the error page
   res.status(err.status || 500);

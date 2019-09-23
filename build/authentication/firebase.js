@@ -15,7 +15,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 (0, _dotenv.config)();
 
-var _config = {
+const _config = {
     credential: firebase.credential.cert({
         type: process.env.FIREBASE_TYPE,
         project_id: process.env.FIREBASE_PROJECT_ID,
@@ -32,7 +32,7 @@ var _config = {
 
 firebase.initializeApp(_config);
 
-var auth = exports.auth = firebase.auth;
+const auth = exports.auth = firebase.auth;
 
 exports.default = firebase;
 //# sourceMappingURL=firebase.js.map

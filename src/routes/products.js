@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import productService from '../../services/productServices'
-import { client } from '../../app';
+import productService from '../services/productServices'
+import { client } from '../app';
 import requiresLogin from '../authentication/firebase-middleware';
 let router = Router();
 
@@ -32,28 +32,6 @@ router.get('/:skus', requiresLogin.requiresAuth, async(req, res, next) => {
     }
   });
   //res.send('respuesta de productos');
-});
-
-router.get('/by-id/:sku', async(req, res, next) => {
-  const sku = (req.params.sku).trim();
-
-  const skuKey = `SKU:${sku}`;
-
-  client.get(skuKey, (err, result) => {
-    if (result) {
-      const resultJSON = JSON.parse(result);
-      return res.status(200).json(resultJSON);
-    }
-    else {
-      productService.getProductBySku(sku).then((data) => {
-        const responseJSON = data;
-        client.setex(skuKey, 120, responseJSON);
-        return res.status(200).json(responseJSON);
-      }).catch(err => {
-        return res.status(err.response.status).json({error: err.message});
-      });
-    }
-  });
 });
 
 export default router;

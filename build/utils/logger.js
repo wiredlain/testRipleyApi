@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var options = {
   error: {
     level: 'error',
-    filename: _appRootPath2.default + '/logs/error.log',
+    filename: `${_appRootPath2.default}/logs/error.log`,
     handleExceptions: true,
     json: true,
     maxsize: 5242880, // 5MB
@@ -30,14 +30,14 @@ var options = {
 };
 
 // instantiate a new Winston Logger with the settings defined above
-var logger = _winston2.default.createLogger({
+let logger = _winston2.default.createLogger({
   transports: [new _winston2.default.transports.Console(options.console), new _winston2.default.transports.File(options.error)],
   exitOnError: false // do not exit on handled exceptions
 });
 
 // create a stream object with a 'write' function that will be used by `morgan`
 logger.stream = {
-  write: function write(message, encoding) {
+  write: function (message, encoding) {
     // use the 'info' log level so the output will be picked up by both transports (file and console)
     logger.info(message);
   }

@@ -11,13 +11,12 @@ import winston from 'winston';
 config();
 
 const router = Router();
-
+import { firebase } from './authentication/firebase';
 import { join } from 'path';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
 import productsRouter from './routes/products';
 
 
@@ -71,7 +70,6 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
 router.use('/', indexRouter);
-router.use('/users', usersRouter);
 router.use('/products', productsRouter);
 
 app.use('/api', router);
