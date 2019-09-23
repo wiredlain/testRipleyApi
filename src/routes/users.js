@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import Session from '../authentication/session';
-import { client } from '../app';
+import { client } from '../../app';
 var router = Router();
 
 /* GET users listing. */

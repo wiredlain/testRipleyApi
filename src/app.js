@@ -16,10 +16,9 @@ import { join } from 'path';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
-import firebase from './authentication/firebase';
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import productsRouter from './routes/products';
+import indexRouter from './src/routes/index';
+import usersRouter from './src/routes/users';
+import productsRouter from './src/routes/products';
 
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
