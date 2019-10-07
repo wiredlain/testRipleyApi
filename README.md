@@ -19,3 +19,13 @@ FIREBASE_CLIENT_X509_CERT_URL=
 ```
 
 con los datos de la cuenta de firebase.
+
+luego instalar las dependencias ya sea con yarn o npm
+
+```
+npm install
+```
+
+```
+yarn install
+```
