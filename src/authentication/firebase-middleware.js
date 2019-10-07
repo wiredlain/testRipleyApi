@@ -1,7 +1,7 @@
-const {auth} = require('firebase-admin');
+import { auth } from 'firebase-admin';
 const authService = auth();
 
-exports.requiresAuth = async (req, res, next) => {
+export async function requiresAuth(req, res, next) {
     const idToken = req.header('FIREBASE_AUTH_TOKEN');
 
     // https://firebase.google.com/docs/reference/admin/node/admin.auth.DecodedIdToken
@@ -10,6 +10,7 @@ exports.requiresAuth = async (req, res, next) => {
     try {
         decodedIdToken = await authService.verifyIdToken(idToken);
     } catch (error) {
+        error.status = 403;
         next(error);
         return;
     }

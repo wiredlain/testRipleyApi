@@ -25,8 +25,6 @@ router.get('/:skus', requiresLogin.requiresAuth, async(req, res, next) => {
         });
         return res.status(200).json(responseJSON);
       }).catch(err => {
-        console.log(err.message);
-
         return res.status(err.response.status || 404).json({error: err.message});
       });
     }
