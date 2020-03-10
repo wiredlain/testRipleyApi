@@ -22,6 +22,7 @@ export default {
     const data = JSON.stringify({productId : skus});
     const url = `${API_URLS.products}?${data}`;
     console.log(url);
+    
     let res = await axios.get(url, options).then((data) => {
         return data;
     }).catch((err) => {
