@@ -13,8 +13,16 @@ export default {
   },
 
   getProducts: async (skus) => {
-    const url = `${API_URLS.products}?partNumbers=${skus}`;
-    let res = await axios.get(url).then((data) => {
+    const options = {
+      headers: {
+        'Authorization': 'Basic c29kcHJvZHVjdEpzb246Y29ycFNvZGltYWM=',
+        'content-type': 'application/json;charset=UTF-8'
+      }
+    };
+    const data = JSON.stringify({productId : skus});
+    const url = `${API_URLS.products}?${data}`;
+    console.log(url);
+    let res = await axios.get(url, options).then((data) => {
         return data;
     }).catch((err) => {
         throw err;

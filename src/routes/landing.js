@@ -1,22 +1,23 @@
 import { Router } from 'express';
-import productService from '../services/productServices'
-import { client } from '../app';
+import landingService from '../services/landingConfiguration';
+// import { client } from '../app';
 // import requiresLogin from '../authentication/firebase-middleware';
 let router = Router();
 
 /* GET users listing. */
 router.get('/', async(req, res, next) => {
-  const skus = Object.values(req.query)[0].replace(/['"}]/g, '');
+  
+  // const skus = (req.query.skus).trim();
 
-  const skusKey = `SKUS:${skus}`;
+  // const skusKey = `SKUS:${skus}`;
 
   // client.get(skusKey, (err, result) => {
-    // if (result) {
-    //   const resultJSON = JSON.parse(result);
-    //   return res.status(200).json(resultJSON);
-    // }
-    // else {
-      productService.getProducts(skus).then((data) => {
+  //   if (result) {
+  //     const resultJSON = JSON.parse(result);
+  //     return res.status(200).json(resultJSON);
+  //   }
+  //   else {
+      landingService.getDataLanding().then((data) => {
         const responseJSON = data;
         // client.setex(skusKey, 120, JSON.stringify(responseJSON));
         // responseJSON.forEach(item => {
@@ -29,7 +30,7 @@ router.get('/', async(req, res, next) => {
         
         return res.status(err.response.status || 404).json({error: err.message});
       });
-    //}
+    // }
   // });
   //res.send('respuesta de productos');
 });

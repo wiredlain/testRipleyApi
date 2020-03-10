@@ -1,5 +1,5 @@
 import { auth } from 'firebase-admin';
-const authService = auth();
+//const authService = auth();
 
 export default {
     async requiresAuth(req, res, next) {

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _firebaseAdmin = require("firebase-admin");
 
-const authService = (0, _firebaseAdmin.auth)();
+//const authService = auth();
 exports.default = {
   async requiresAuth(req, res, next) {
     const idToken = req.header('FIREBASE_AUTH_TOKEN'); // https://firebase.google.com/docs/reference/admin/node/admin.auth.DecodedIdToken

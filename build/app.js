@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.client = undefined;
 
 var _express = require("express");
 
@@ -39,8 +38,6 @@ var _winston = require("winston");
 
 var _winston2 = _interopRequireDefault(_winston);
 
-var _firebase = require("./authentication/firebase");
-
 var _path = require("path");
 
 var _cookieParser = require("cookie-parser");
@@ -59,15 +56,17 @@ var _products = require("./routes/products");
 
 var _products2 = _interopRequireDefault(_products);
 
+var _landing = require("./routes/landing");
+
+var _landing2 = _interopRequireDefault(_landing);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _dotenv.config)();
-const router = (0, _express.Router)();
+const router = (0, _express.Router)(); //import { firebase } from './authentication/firebase';
 
-_bluebird2.default.promisifyAll(_redis2.default.RedisClient.prototype);
-
-_bluebird2.default.promisifyAll(_redis2.default.Multi.prototype);
-
+//bluebird.promisifyAll(redis.RedisClient.prototype);
+//bluebird.promisifyAll(redis.Multi.prototype);
 const app = (0, _express2.default)();
 
 const LoggerMiddleware = (req, res, next) => {
@@ -85,12 +84,10 @@ const LoggerMiddleware = (req, res, next) => {
   }
 
   next();
-};
-
-app.use(LoggerMiddleware);
-const REDIS_URL = process.env.REDIS_URL;
-
-const client = exports.client = _redis2.default.createClient(REDIS_URL); // view engine setup
+}; //app.use(LoggerMiddleware);
+//const REDIS_URL = process.env.REDIS_URL;
+//export const client = redis.createClient(REDIS_URL)
+// view engine setup
 
 
 app.set('views', (0, _path.join)(__dirname, '../src/views'));
@@ -113,7 +110,8 @@ app.use((0, _express.urlencoded)({
 app.use((0, _cookieParser2.default)());
 app.use(_express2.default.static((0, _path.join)(__dirname, 'public')));
 router.use('/', _index2.default);
-router.use('/products', _products2.default);
+router.use('/getProductDetailsJson', _products2.default);
+router.use('/landings', _landing2.default);
 app.use('/api', router); // error handler
 
 app.use(function (err, req, res, next) {

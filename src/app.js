@@ -11,17 +11,18 @@ import winston from 'winston';
 config();
 
 const router = Router();
-import { firebase } from './authentication/firebase';
+//import { firebase } from './authentication/firebase';
 import { join } from 'path';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
 import indexRouter from './routes/index';
 import productsRouter from './routes/products';
+import landingRouter from './routes/landing';
 
 
-bluebird.promisifyAll(redis.RedisClient.prototype);
-bluebird.promisifyAll(redis.Multi.prototype);
+//bluebird.promisifyAll(redis.RedisClient.prototype);
+//bluebird.promisifyAll(redis.Multi.prototype);
 
 const app = express();
 
@@ -38,10 +39,10 @@ const LoggerMiddleware = (req,res,next) => {
   next();
 };
 
-app.use(LoggerMiddleware);
+//app.use(LoggerMiddleware);
 
-const REDIS_URL = process.env.REDIS_URL;
-export const client = redis.createClient(REDIS_URL)
+//const REDIS_URL = process.env.REDIS_URL;
+//export const client = redis.createClient(REDIS_URL)
 
 // view engine setup
 app.set('views', join(__dirname, '../src/views'));
@@ -60,7 +61,8 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
 router.use('/', indexRouter);
-router.use('/products', productsRouter);
+router.use('/getProductDetailsJson', productsRouter);
+router.use('/landings', landingRouter);
 
 app.use('/api', router);
 

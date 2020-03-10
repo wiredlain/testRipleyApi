@@ -25,8 +25,18 @@ exports.default = {
     return res.data || [];
   },
   getProducts: async skus => {
-    const url = `${_constanst2.default.products}?partNumbers=${skus}`;
-    let res = await _axios2.default.get(url).then(data => {
+    const options = {
+      headers: {
+        'Authorization': 'Basic c29kcHJvZHVjdEpzb246Y29ycFNvZGltYWM=',
+        'content-type': 'application/json;charset=UTF-8'
+      }
+    };
+    const data = JSON.stringify({
+      productId: skus
+    });
+    const url = `${_constanst2.default.products}?${data}`;
+    console.log(url);
+    let res = await _axios2.default.get(url, options).then(data => {
       return data;
     }).catch(err => {
       throw err;
