@@ -19,7 +19,9 @@ let router = (0, _express.Router)();
 /* GET users listing. */
 
 router.get('/', async (req, res, next) => {
-  const skus = Object.values(req.query)[0].replace(/['"}]/g, '');
+  console.log(Object.keys(req.query));
+  const skus = Object.keys(req.query)[0].replace(/['"{}]/g, '').replace('productId:', '');
+  console.log("skus: " + skus);
   const skusKey = `SKUS:${skus}`; // client.get(skusKey, (err, result) => {
   // if (result) {
   //   const resultJSON = JSON.parse(result);

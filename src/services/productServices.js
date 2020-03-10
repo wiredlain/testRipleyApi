@@ -19,6 +19,8 @@ export default {
         'content-type': 'application/json;charset=UTF-8'
       }
     };
+    console.log(skus);
+    
     const data = JSON.stringify({productId : skus});
     const url = `${API_URLS.products}?${data}`;
     console.log(url);

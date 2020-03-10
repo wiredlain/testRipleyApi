@@ -31,6 +31,7 @@ exports.default = {
         'content-type': 'application/json;charset=UTF-8'
       }
     };
+    console.log(skus);
     const data = JSON.stringify({
       productId: skus
     });
